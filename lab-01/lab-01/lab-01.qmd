@@ -34,9 +34,19 @@ The Colorado River Basin supplies drinking water to 40 million people across 7 U
 
 In this lab you will work with real streamflow records pulled directly from the **USGS National Water Information System (NWIS)** — the same federal system water managers query every morning. You will build a complete analytical pipeline: from raw API call to normalized comparisons, threshold detection, basin-wide trend visualization, and a predictive model of the Compact's key accounting point.
 
-------------------------------------------------------------------------
+---
 
-``` yaml
+# Set-up {#setup}
+
+## Repository
+
+1. Create a new repository called `csu-523c` on GitHub
+2. Clone it to your `~/github/` directory
+3. Open the project in RStudio (`File → Open Project`)
+4. Download this labs qmd file [here](lab-01.qmd) into your repo
+5. Add your information to the yaml
+
+```yaml
 ---
 ...
 author:
@@ -75,7 +85,7 @@ We will use the `dataRetrieval` package — developed and maintained by the USGS
 
 The USGS parameter code for discharge is `00060` (cubic feet per second). The statistic code `00003` is the daily mean value. Under the hood, `dataRetrieval` constructs and queries the same REST API URL we explored in lecture:
 
-```         
+```
 https://waterservices.usgs.gov/nwis/dv/?sites=09380000&parameterCd=00060&statCd=00003
 ```
 
@@ -113,11 +123,10 @@ Note: this chunk is cached (`cache = TRUE`). If you change the data-pull argumen
 
 ::: callout-tip
 ## What does `glimpse()` tell you?
-
-Before doing anything with a new dataset, always check: Does the row count make sense? Are data types correct (`Date` should be `<date>`, `Flow` should be `<dbl>`)? Are there obvious NAs or impossible values? For \~7 gauges × 44 years × 365 days you should expect roughly 112,000 rows.
+Before doing anything with a new dataset, always check: Does the row count make sense? Are data types correct (`Date` should be `<date>`, `Flow` should be `<dbl>`)? Are there obvious NAs or impossible values? For ~7 gauges × 44 years × 365 days you should expect roughly 112,000 rows.
 :::
 
-------------------------------------------------------------------------
+---
 
 # **Question 1**: Daily Conditions Report {#q1}
 
@@ -126,7 +135,8 @@ You are a water resources analyst. Each morning you deliver a reproducible snaps
 **a.** Create a `my.date` parameter object set to the last day of water year 2023 (September 30, 2023). Ensure it is stored as a proper `Date` object, not a character string.
 
 ::: callout-tip
-`as.Date()` converts a character string to a Date. R stores dates internally as days since 1970-01-01, enabling date arithmetic (`my.date - 7` = one week earlier) and use in `filter()` comparisons. Hint: use `as.Date()` to convert strings to `Date` objects and confirm with `class()` before using date arithmetic or `filter()`.
+`as.Date()` converts a character string to a Date. R stores dates internally as days since 1970-01-01, enabling date arithmetic (`my.date - 7` = one week earlier) and use in `filter()` comparisons.
+Hint: use `as.Date()` to convert strings to `Date` objects and confirm with `class()` before using date arithmetic or `filter()`.
 :::
 
 ```{r}
@@ -141,14 +151,13 @@ my.date <- as.Date("2023-09-30")
 
 **c.** Filter to `my.date` and produce **two formatted tables** using `flextable`:
 
--   **Table 1**: The 5 gauges with the **highest discharge** — where is flow greatest right now?
--   **Table 2**: The 5 gauges with the **greatest day-over-day increase** — where is flow rising fastest?
+- **Table 1**: The 5 gauges with the **highest discharge** — where is flow greatest right now?
+- **Table 2**: The 5 gauges with the **greatest day-over-day increase** — where is flow rising fastest?
 
 Both tables should have clear column names, rounded numbers, and descriptive captions using `flextable` (see tip).
 
 ::: callout-tip
 ## Introducing `flextable`
-
 `flextable` creates publication-quality HTML tables directly from data frames.
 
 Hint: use `flextable()` with `set_header_labels()`, `set_caption()`, and `autofit()` for clean tables. Use `slice_max()` to select top `n` rows and `round()` to tidy numeric columns before rendering.
@@ -158,11 +167,11 @@ Hint: use `flextable()` with `set_header_labels()`, `set_caption()`, and `autofi
 
 ```
 
-------------------------------------------------------------------------
+---
 
 # **Question 2**: Basin Metadata Join {#q2}
 
-Raw discharge numbers alone don't tell the full story. Lees Ferry always carries more water than the San Juan at Bluff — but that is largely because it drains over **111,000 square miles** versus the San Juan's \~23,000. To compare these sites meaningfully, we need each gauge's drainage area. That information lives in a separate table and must be **joined in**.
+Raw discharge numbers alone don't tell the full story. Lees Ferry always carries more water than the San Juan at Bluff — but that is largely because it drains over **111,000 square miles** versus the San Juan's ~23,000. To compare these sites meaningfully, we need each gauge's drainage area. That information lives in a separate table and must be **joined in**.
 
 This is the core relational data problem: observations in one table, attributes in another, connected through a shared key. It is also one of the most error-prone operations in data science — not because the syntax is hard, but because bad joins fail silently.
 
@@ -170,15 +179,15 @@ This is the core relational data problem: observations in one table, attributes 
 
 Before writing a single `_join()` call, answer three questions:
 
-1.  **What is the key?** Which column(s) connect the two tables?
-2.  **What is the relationship?** One-to-one, or one-to-many?
-3.  **What happens to non-matching rows?** Keep them (with NAs), or drop them?
+1. **What is the key?** Which column(s) connect the two tables?
+2. **What is the relationship?** One-to-one, or one-to-many?
+3. **What happens to non-matching rows?** Keep them (with NAs), or drop them?
 
 ::: callout-tip
 ## The (main) four joins — and when to use each
 
 | Function | Keeps rows from... | Non-matching rows |
-|------------------------|------------------------|------------------------|
+|---|---|---|
 | `left_join(x, y)` | All of `x` | `y` columns filled with `NA` |
 | `right_join(x, y)` | All of `y` | `x` columns filled with `NA` |
 | `inner_join(x, y)` | Only rows matching in **both** | Dropped entirely |
@@ -231,25 +240,25 @@ The join matches on this shared key. Because one gauge has many flow records, th
 ::: callout-important
 ## Always verify your joins — three checks, every time
 
-1.  `nrow(result) == nrow(left_table)` — row count unchanged ✓
-2.  `sum(is.na(new_column)) == 0` — no unexpected NAs ✓
-3.  Spot-check a known value — numbers are plausible ✓
+1. `nrow(result) == nrow(left_table)` — row count unchanged ✓
+2. `sum(is.na(new_column)) == 0` — no unexpected NAs ✓
+3. Spot-check a known value — numbers are plausible ✓
 
 These checks cost 30 seconds and catch errors that would otherwise corrupt every downstream calculation silently. You will join data in every lab this semester. Consider, building this habit now.
 :::
 
-------------------------------------------------------------------------
+---
 
-## Graduate expectations
+## Graduate expectations 
 
 This course is at the graduate level. In addition to producing correct code and outputs, your submission should:
 
--   Briefly justify methodological choices (e.g., window lengths, alignment for rolling statistics, normalization approaches, and model structure). A short 3–5 sentence justification is sufficient.
--   Include a simple sensitivity or validation check where appropriate (e.g., compare 7-day vs 14-day rolling windows; use leave-one-year-out cross-validation for the predictive model and report RMSE or MAE).
--   Report basic uncertainty/robustness: how sensitive are your central conclusions to small changes in preprocessing or parameter choices?
--   Cite one relevant source (paper, USGS stat documentation, or authoritative report) if you reference an established hydrological statistic (e.g., 7Q10 logic) or external dataset.
+- Briefly justify methodological choices (e.g., window lengths, alignment for rolling statistics, normalization approaches, and model structure). A short 3–5 sentence justification is sufficient.
+- Include a simple sensitivity or validation check where appropriate (e.g., compare 7-day vs 14-day rolling windows; use leave-one-year-out cross-validation for the predictive model and report RMSE or MAE).
+- Report basic uncertainty/robustness: how sensitive are your central conclusions to small changes in preprocessing or parameter choices?
+- Cite one relevant source (paper, USGS stat documentation, or authoritative report) if you reference an established hydrological statistic (e.g., 7Q10 logic) or external dataset.
 
-------------------------------------------------------------------------
+---
 
 # **Question 3**: Per-Unit-Area Normalization {#q3}
 
@@ -271,7 +280,7 @@ Lees Ferry's high discharge reflects its enormous watershed, not necessarily mor
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 4**: Low-Flow Threshold Monitoring {#q4}
 
@@ -317,7 +326,7 @@ The USGS computes official low-flow statistics — including the 7Q10 — and ma
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 5**: Annual Water Year Summary {#q5}
 
@@ -349,7 +358,7 @@ In 2–3 sentences: (1) describe the direction and approximate timing of any str
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 6**: Basin-Wide Trend Analysis {#q6}
 
@@ -385,7 +394,7 @@ Hint: summarize baseline mean and SD per gauge (1980–2010), join those stats t
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 7**: The Moving Center of Drought {#q7}
 
@@ -398,7 +407,7 @@ $$\bar{X}_{year} = \frac{\sum (lon_i \times Q_i)}{\sum Q_i} \qquad \bar{Y}_{year
 **a.** Join gauge coordinates (`dec_lat_va`, `dec_long_va`) from `site_meta` to your annual summary. Compute the flow-weighted mean latitude and longitude for each water year.
 
 ::: callout-tip
-Hint: join coordinates from `site_meta` to the annual table, then compute weighted longitude/latitude per year as sum(coord \* total_flow) / sum(total_flow). This is your third join — verify row counts, NAs, and spot-check known values.
+Hint: join coordinates from `site_meta` to the annual table, then compute weighted longitude/latitude per year as sum(coord * total_flow) / sum(total_flow). This is your third join — verify row counts, NAs, and spot-check known values.
 :::
 
 Note: mapping can use `map_data("state")`; if `map_data()` is not available install the `maps` package (`install.packages("maps")`) or use `ggplot2::map_data("state")` which provides equivalent polygons.
@@ -409,8 +418,8 @@ Note: mapping can use `map_data("state")`; if `map_data()` is not available inst
 
 **b.** Create a two-panel figure using `patchwork`:
 
--   **Left**: western US base map with the weighted center plotted as points colored by water year (blue = early, red = recent) and connected by a path through time
--   **Right**: line plot of weighted mean latitude over time with a linear trend line
+- **Left**: western US base map with the weighted center plotted as points colored by water year (blue = early, red = recent) and connected by a path through time
+- **Right**: line plot of weighted mean latitude over time with a linear trend line
 
 ::: callout-tip
 Hint: draw a western-US polygon basemap and overlay the annual weighted centers as a colored path and points; beside it, plot weighted latitude over time with a linear trend. Use a diverging color gradient for year progression and `patchwork` to combine panels.
@@ -426,7 +435,7 @@ If you haven't seen patchwork before, it allows you to combine multiple ggplots 
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 8**: Seasonal Regimes and Peak Timing {#q8}
 
@@ -434,10 +443,10 @@ Annual totals mask important seasonal structure. The Colorado Basin has two dist
 
 **a.** Add a `season` column using `case_when()`. Roughly we will define the seasons as follows:
 
--   **Snowmelt**: April–June (months 4–6)
--   **Monsoon**: July–September (months 7–9)
--   **Low-flow**: October–December (months 10–12)
--   **Winter**: January–March (months 1–3)
+- **Snowmelt**: April–June (months 4–6)
+- **Monsoon**: July–September (months 7–9)
+- **Low-flow**: October–December (months 10–12)
+- **Winter**: January–March (months 1–3)
 
 Make `season` a factor with levels in hydrological order: Snowmelt, Monsoon, Low-flow, Winter.
 
@@ -478,7 +487,7 @@ data |> mutate(
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 9**: Predicting Lees Ferry from Upstream Conditions {#q9}
 
@@ -490,17 +499,17 @@ We'll build a simple but physically grounded model: can Glenwood Springs (an upp
 
 **a.** Build your model dataset through four sequential operations:
 
-1.  Filter `annual` to Lees Ferry; rename `total_flow` to `lees_flow`
-2.  Join annual Glenwood Springs flow (site `09085000`); rename to `glenwood_flow`
-3.  Join the **dominant season** at Lees Ferry per water year, the season with the highest total discharge
-4.  Log-transform both flow variables
+1. Filter `annual` to Lees Ferry; rename `total_flow` to `lees_flow`
+2. Join annual Glenwood Springs flow (site `09085000`); rename to `glenwood_flow`
+3. Join the **dominant season** at Lees Ferry per water year, the season with the highest total discharge
+4. Log-transform both flow variables
 
 ::: callout-tip
 The dominant season: within each water year, which season (Snowmelt, Monsoon, Low-flow, Winter) carried the most flow at Lees Ferry? Filter seasonal summaries to Lees Ferry, then `group_by(water_year) |> slice_max(total_flow, n = 1)` to select one season per year.
 
 Then join that back to your Lees Ferry & Glenwood annual table by `water_year`.
 
-This is your fourth join. **Always verify**: the final dataset should have \~44 rows (one per water year, 1980–2023), zero NAs in flow columns, and log-transformed values should be positive.
+This is your fourth join. **Always verify**: the final dataset should have ~44 rows (one per water year, 1980–2023), zero NAs in flow columns, and log-transformed values should be positive.
 :::
 
 ```{r}
@@ -529,7 +538,7 @@ In a log-log model, the coefficient on `log_glenwood` is an **elasticity**: a co
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # **Question 10**: Model Evaluation {#q10}
 
@@ -547,9 +556,9 @@ aug <- augment(mod, data = lees_model_data)
 
 `broom` converts messy R model objects into tidy, pipeable data frames:
 
--   `augment(mod)` — adds `.fitted` (predictions) and `.resid` (residuals) to your data
--   `glance(mod)` — one-row summary of model fit: R², AIC, p-value
--   `tidy(mod)` — one-row-per-coefficient table with estimates and p-values
+- `augment(mod)` — adds `.fitted` (predictions) and `.resid` (residuals) to your data
+- `glance(mod)` — one-row summary of model fit: R², AIC, p-value
+- `tidy(mod)` — one-row-per-coefficient table with estimates and p-values
 
 Together these make model results as pipeable as any other data frame — straight into `ggplot` or `flextable`.
 :::
@@ -561,7 +570,7 @@ Together these make model results as pipeable as any other data frame — straig
 **b.** Create a **predicted vs. actual scatter plot**. Add a dashed 1:1 reference line (perfect prediction). Color points by `season`. Identify any point that sits noticeably off the line.
 
 ::: callout-tip
-`geom_abline(slope = 1, intercept = 0, linetype = "dashed")` draws the 1:1 line. Points above it = underpredicted (actual \> predicted); points below = overpredicted.
+`geom_abline(slope = 1, intercept = 0, linetype = "dashed")` draws the 1:1 line. Points above it = underpredicted (actual > predicted); points below = overpredicted.
 :::
 
 ```{r}
@@ -578,7 +587,7 @@ Together these make model results as pipeable as any other data frame — straig
 
 > ...
 
-------------------------------------------------------------------------
+---
 
 # Going Further (ungraded)
 
@@ -586,52 +595,55 @@ The model in Q9 predicts Lees Ferry from a single upstream gauge. `dataRetrieval
 
 These are real operational forecasting questions that USBR and state water agencies work on every year. The data is already in your hands to try!
 
-------------------------------------------------------------------------
+---
 
 # Summary
 
 In this lab you built a complete analytical pipeline for one of the most consequential river systems in North America:
 
--   **Retrieved** 44 years of daily streamflow directly from the USGS NWIS API using `dataRetrieval`
--   **Joined** gauge metadata using relational keys — and verified every join
--   **Normalized** by drainage area to enable fair comparisons across the basin
--   **Detected** low-flow threshold exceedances using rolling statistics for operational drought monitoring
--   **Aggregated** by water year and season — the natural temporal units of western hydrology
--   **Visualized** basin-wide trends with a standardized anomaly heatmap and a flow-weighted spatial center analysis
--   **Modeled** the upstream-downstream relationship at the Compact's accounting point
--   **Evaluated** model assumptions and identified the outlier year the model couldn't predict
+- **Retrieved** 44 years of daily streamflow directly from the USGS NWIS API using `dataRetrieval`
+- **Joined** gauge metadata using relational keys — and verified every join
+- **Normalized** by drainage area to enable fair comparisons across the basin
+- **Detected** low-flow threshold exceedances using rolling statistics for operational drought monitoring
+- **Aggregated** by water year and season — the natural temporal units of western hydrology
+- **Visualized** basin-wide trends with a standardized anomaly heatmap and a flow-weighted spatial center analysis
+- **Modeled** the upstream-downstream relationship at the Compact's accounting point
+- **Evaluated** model assumptions and identified the outlier year the model couldn't predict
 
 Every tool — `dplyr`, `ggplot2`, `zoo`, `patchwork`, `broom`, `flextable` — recurs in work you will inevitabbly do. The key is that the workflow is always the same: get → tidy → explore → model → communicate.
 
-------------------------------------------------------------------------
+---
 
 # Rubric
 
-| Question                     | Topic                          | Points  |
-|------------------------------|--------------------------------|---------|
-| Q1                           | Daily conditions report        | 10      |
-| Q2                           | Basin metadata join            | 10      |
-| Q3                           | Per-unit-area normalization    | 10      |
-| Q4                           | Low-flow threshold monitoring  | 20      |
-| Q5                           | Annual water year summary      | 10      |
-| Q6                           | Basin-wide trend analysis      | 15      |
-| Q7                           | Moving center of drought       | 15      |
-| Q8                           | Seasonal regimes + peak timing | 15      |
-| Q9                           | Predictive model               | 15      |
-| Q10                          | Model evaluation               | 10      |
-| Well-structured, legible Qmd | —                              | 10      |
-| Deployed as a webpage        | —                              | 10      |
-| **Total**                    |                                | **150** |
+| Question | Topic | Points |
+|----------|-------|--------|
+| Q1 | Daily conditions report | 10 |
+| Q2 | Basin metadata join | 10 |
+| Q3 | Per-unit-area normalization | 10 |
+| Q4 | Low-flow threshold monitoring | 20 |
+| Q5 | Annual water year summary | 10 |
+| Q6 | Basin-wide trend analysis | 15 |
+| Q7 | Moving center of drought | 15 |
+| Q8 | Seasonal regimes + peak timing | 15 |
+| Q9 | Predictive model | 15 |
+| Q10 | Model evaluation | 10 |
+| Well-structured, legible Qmd | — | 10 |
+| Deployed as a webpage | — | 10 |
+| **Total** | | **150** |
 
-------------------------------------------------------------------------
+---
 
-**Grading key (brief):** - **Correctness (primary):** calculations, joins, and checks — e.g., Q2 join verification and Q4 rolling mean logic. - **Reproducibility:** code runs end-to-end, used parameter objects (`my.date`), and included any small checks or assertions. - **Clarity & Presentation:** readable code, labeled tables/plots, captions for `flextable` outputs, and a clear 1-paragraph interpretation.
+**Grading key (brief):**
+- **Correctness (primary):** calculations, joins, and checks — e.g., Q2 join verification and Q4 rolling mean logic.
+- **Reproducibility:** code runs end-to-end, used parameter objects (`my.date`), and included any small checks or assertions.
+- **Clarity & Presentation:** readable code, labeled tables/plots, captions for `flextable` outputs, and a clear 1-paragraph interpretation.
 
 # Submission
 
-1.  Render: `quarto render lab-01.qmd`
-2.  Push: `git add -A && git commit -m "lab 1 complete" && git push`
-3.  Activate GitHub Pages: **GitHub → Settings → Pages → Deploy from branch → main**
-4.  Submit your live URL to Canvas: `https://USERNAME.github.io/csu-523c/lab-01.html`
+1. Render: `quarto render lab-01.qmd`
+2. Push: `git add -A && git commit -m "lab 1 complete" && git push`
+3. Activate GitHub Pages: **GitHub → Settings → Pages → Deploy from branch → main**
+4. Submit your live URL to Canvas: `https://USERNAME.github.io/csu-523c/lab-01.html`
 
 Add this project to your personal website with a brief description — it counts toward end-of-semester extra credit.

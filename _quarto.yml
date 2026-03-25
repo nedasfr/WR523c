@@ -4,7 +4,7 @@ project:
   
 website:
   title: "ESS 523c: Environmental Data Science"
-  site-url: https://github.com/mikejohnson51/csu-ess-523c
+  site-url: https://github.com/nedasfr/WR523c
   navbar:
     left:
       - href: index.qmd
