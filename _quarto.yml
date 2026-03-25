@@ -1,8 +1,14 @@
 project:
   type: website
   output-dir: docs
-
+  
 website:
-  title: "csu-523c"
-
+  title: "ESS 523c: Environmental Data Science"
+  site-url: https://github.com/mikejohnson51/csu-ess-523c
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: labs/lab-01.qmd
+        text: Lab 1
   
