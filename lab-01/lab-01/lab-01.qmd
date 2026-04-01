@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 Install and load the following packages. If any are missing, run `install.packages("packagename")` first:
 
 ```{r}
-
+if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(
   tidyverse,
   dataRetrieval,
@@ -308,7 +308,8 @@ site_meta_flow|>
 
 **c.** Answer in 2–3 sentences: (1) do the raw and normalized rankings differ, and if so, which gauge changes most dramatically? (2) Why does per-area normalization matter for comparing gauges in the Colorado Basin? (3) Name one analysis where you would use raw discharge and one where you would use normalized discharge.
 
->Yes the raw and normalized rankings are different. 09402500 and 09085000 differ significantly. Per area normalization is important for comparing the flow ranking because raw comparison that does not include area could give out wrong information about the flow comparison in each gauge. If we are comparing the flow data we should always use the normalized discharge to accurately represent the data. If we are investigating something related to only one gauge, like the discharge rate in one gauge for an environmental project, we should look at the raw discharge.
+>Yes the raw and normalized rankings are different. 09402500 and 09085000 differ significantly. Per area normalization is important for comparing the flow ranking because raw comparison that does not include area could give out wrong information about the flow comparison in each gauge. If we are comparing the flow data we should always use the normalized discharge to accurately represent the data. If we are investigating something related to only one gauge, like the discharge rate in one gauge for an environmental project, we should look at the raw discharge.\
+Hirsch, R.M., & De Cicco, L.A. (2015). User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval. U.S. Geological Survey Techniques and Methods. https://doi.org/10.3133/tm4A10
 
 ------------------------------------------------------------------------
 
@@ -380,7 +381,8 @@ scale_y_continuous(limits = c(0, NA))+
 
 **e.** How many days per year, on average, did Lees Ferry fall below its low-flow threshold in **2000–2010** vs. **2011–2023**? Produce a small summary table and answer in 2–3 sentences: (1) did below-threshold days increase or decrease? (2) Is this a shift in isolated dry years or a persistent baseline change? (3) What does this imply for Compact delivery obligations?
 
-> On average below threshold days have increased from 2000-2010 to 2011-2023. It seems like this shows a persistent baseline change. This implies that for meeting the compact requirements for water delivery we need to apply measures that conserves more water, or an amandement that considers future droughts due to climate change.
+> On average below threshold days have increased from 2000-2010 to 2011-2023. It seems like this shows a persistent baseline change. This implies that for meeting the compact requirements for water delivery we need to apply measures that conserves more water, or an amandement that considers future droughts due to climate change.\
+Congressional Research Service. (2023, May 5). Management of the Colorado River: Water allocations, drought, and the federal role (R45546). https://www.congress.gov/crs_external_products/R/HTML/R45546.html
 
 ::: callout-tip
 `n_distinct(year(Date))` counts unique years in a group — useful for computing per-year averages across a multi-year period.
@@ -467,7 +469,7 @@ annual_data_lees|>
 
 In 2–3 sentences: (1) describe the direction and approximate timing of any structural shift in the record, (2) identify one year that stands out as an exception to the dominant pattern and what you know about its cause, and (3) explain what this pattern means for Compact water accounting.
 
->The plot shows that there is a structural shift to below median discharge around 1983 to 1998, and 1995 to 2000s. It seems that after 2005, we have less high median discharge years comapared to the pattern from previous years. It seems like the years that we have below median discharge in Lees Ferry is decreasing. Although we can not jusdge based on one of the tributaries but if the same pattern exists in other tributaries, this could mean less available water for the Colorado river compact, and could lead to disputes between states. \> ...
+>The plot shows that there is a structural shift to below median discharge around 1983 to 1998, and 1995 to 2000s. It seems that after 2005, we have less high median discharge years comapared to the pattern from previous years. It seems like the years that we have below median discharge in Lees Ferry is decreasing. Although we can not jusdge based on one of the tributaries but if the same pattern exists in other tributaries, this could mean less available water for the Colorado river compact, and could lead to disputes between states. \ Hogan, D., & Lundquist, J. D. (2024). Recent upper Colorado River streamflow declines driven by loss of spring precipitation. Geophysical Research Letters, 51(16), e2024GL109826.
 
 ------------------------------------------------------------------------
 
@@ -525,8 +527,8 @@ ggplot(aes(water_year, name, fill= standard_anomaly))+
 
 **c.** In 3–4 sentences: (1) describe whether the post-2000 drought signal appears across all gauges or only some, (2) identify two specific years that appear as basin-wide anomalies — one dry, one wet — and name the climate event that caused each, and (3) explain what simultaneous basin-wide anomalies tell you that a single-gauge record cannot.
 
-> The post-2000 drought signal appears across almost all gauges. This shows that there are more drought after 2000s. It seems that 2002 was very dey, and 2011 was weter compared to the trend. The heat map compares all seven gauges across different years and tells us what is happening in the basin overall, and we can see the trend and the relationship. If the heatmap was showing drought only in one of the gauges and others were wet, we would realize that maybe something else is happening in that tributary that is external rather than climate and drought.
-
+> The post-2000 drought signal appears across almost all gauges. This shows that there are more drought after 2000s. It seems that 2002 was very dey, and 2011 was weter compared to the trend. The heat map compares all seven gauges across different years and tells us what is happening in the basin overall, and we can see the trend and the relationship. If the heatmap was showing drought only in one of the gauges and others were wet, we would realize that maybe something else is happening in that tributary that is external rather than climate and drought.\
+Gangopadhyay, S., Woodhouse, C. A., McCabe, G. J., Routson, C. C., & Meko, D. M. (2022). Tree rings reveal unmatched 2nd century drought in the Colorado River Basin. Geophysical Research Letters, 49(11), e2022GL098781.
 ------------------------------------------------------------------------
 
 # **Question 7**: The Moving Center of Drought {#q7}
@@ -599,8 +601,8 @@ plot1+plot2
 
 **c.** Your latitude time series should show two years where the weighted center spikes dramatically northward. Identify those two years and explain: (1) what climate event caused each spike, (2) what they have in common physically, and (3) what the long-term upward trend in weighted latitude suggests about which part of the basin is becoming proportionally more important to total flow — and why that matters for water managers downstream.
 
-> The spikes happen in 2011 and 2017. It seams like there has been more flow on those years, which could be a sign of la nina year. They both happen in high elevation. The long-term upward trend in weighted latitude suggests that northern gauges are becoming more important for the flow of the whole basin.
-
+> The spikes happen in 2011 and 2017. It seams like there has been more flow on those years, which could be a sign of la nina year. They both happen in high elevation. The long-term upward trend in weighted latitude suggests that northern gauges are becoming more important for the flow of the whole basin.\
+Colorado State University. (2023). Chapter 3: Changes in Colorado’s water. Climate Change in Colorado. https://climatechange.colostate.edu/chapters/3_water.html
 ------------------------------------------------------------------------
 
 # **Question 8**: Seasonal Regimes and Peak Timing {#q8}
@@ -681,8 +683,9 @@ peak_day_flow|>
 
 **d.** In 2–3 sentences: (1) describe the direction and magnitude of the peak timing trend, (2) is it statistically visible or buried in noise? (3) What would a two-week earlier peak timing mean operationally for reservoir managers trying to capture spring runoff before it passes downstream?
 
-> The trend shows that the peak timing is happening earlier than before, and the overall trend is increasing. The trend line shows it specifically, but I think the trend is clear statistically, however a test would help us see it clearer. It means they have a short time between snowmelt and peak flow and they have less time to capture the runoff before it passes downstream.
-
+> The trend shows that the peak timing is happening earlier than before, and the overall trend is increasing. The trend line shows it specifically, but I think the trend is clear statistically, however a test would help us see it clearer. It means they have a short time between snowmelt and peak flow and they have less time to capture the runoff before it passes downstream.\
+Christensen, N. S., Wood, A. W., Voisin, N., Lettenmaier, D. P., & Palmer, R. N. (2004). The effects of climate change on the hydrology and water resources of the Colorado River basin. Climatic change, 62(1), 337-363.\
+Wheeler, K., Kuhn, E., Bruckerhoff, L., Udall, B., Wang, J., Gilbert, L., ... & Schmidt, J. C. (2021). Alternative management paradigms for the future of the Colorado and Green Rivers. The Future of the Colorado River Project, White Paper No. 6. Logan, UT: Utah State University, Quinney College of Natural Resources Center for Colorado River Studies. 132 p.
 ------------------------------------------------------------------------
 
 # **Question 9**: Predicting Lees Ferry from Upstream Conditions {#q9}
@@ -762,8 +765,8 @@ summary(mod)
 In a log-log model, the coefficient on `log_glenwood` is an **elasticity**: a coefficient of 1.8 means a 1% increase in Glenwood Springs flow is associated with a 1.8% increase at Lees Ferry. This super-linear amplification makes physical sense — flow accumulates from tributaries between the two gauges, so an above-average headwater year compounds as it moves downstream.
 :::
 
-> R^2= 0.855, adjusted R^2= 0.828. This means that the model explains 85.5 of the variance in annual flow in Lees Ferry. The log_glenwood coef equals to 1.797 and it means that 1% increase in flow in Glenwood is associated with 1.797% increase at Lees Ferry. The significant negative interaction terms for Monsoon (−1.55), Low-flow (−0.91), and Winter (−1.77) show that the upstream downstream relationship is not the same during the Monsoon and winter seasons. and Lees ferry and Glenwood are independent from each other
-
+> R^2= 0.855, adjusted R^2= 0.828. This means that the model explains 85.5 of the variance in annual flow in Lees Ferry. The log_glenwood coef equals to 1.797 and it means that 1% increase in flow in Glenwood is associated with 1.797% increase at Lees Ferry. The significant negative interaction terms for Monsoon (−1.55), Low-flow (−0.91), and Winter (−1.77) show that the upstream downstream relationship is not the same during the Monsoon and winter seasons. and Lees ferry and Glenwood are independent from each other.\
+Grant, C. D. (2024). Quantifying the Price Elasticity of Water Demand in Cheyenne, WY: Implications for Drought Management and Policy in the Colorado River Basin. University of Wyoming.
 ------------------------------------------------------------------------
 
 # **Question 10**: Model Evaluation {#q10}
@@ -827,8 +830,8 @@ ggplot(aes(x = .resid))+
 
 **d.** In 3–4 sentences: (1) identify the outlier water year visible in your scatter plot. Which year is it and why did the model fail to predict it? (2) Do the residuals appear approximately normal, or is there a tail that concerns you? (3) Name two additional predictors that would most improve this model and explain the physical mechanism behind each.
 
-> There are several outliers including the year 1983, 2011, 2012. The model fail to predict it because the difference in the flow capture that year. The residuals appear normal with outlier on th right tail. I think two predictors could be snowpack, that helps measure the water from melting, and climate drivers such as el nino la nina as they can cause above average measures for different years.
-
+> There are several outliers including the year 1983, 2011, 2012. The model fail to predict it because the difference in the flow capture that year. The residuals appear normal with outlier on the right tail. I think two predictors could be snowpack, that helps measure the water from melting, and climate drivers such as el nino la nina as they can cause above average measures for different years.\
+Serreze, M. C., Clark, M. P., Armstrong, R. L., McGinnis, D. A., & Pulwarty, R. S. (1999). Characteristics of the western United States snowpack from snowpack telemetry (SNOTEL) data. Water Resources Research, 35(7), 2145-2160.
 ------------------------------------------------------------------------
 
 # Going Further (ungraded)
