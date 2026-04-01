@@ -1,0 +1,10 @@
+---
+title: "Practice_no_upload"
+format: html
+editor: visual
+---
+
+```         
+df<- data.frame(country= c("USA", "Brazil", "India"), pop= c(36, 3,34))
+
+```
