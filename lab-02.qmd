@@ -432,19 +432,23 @@ Create a variable for the absolute difference between the two distances, then us
 :::
 
 ```{r}
-equi_cities <- us_cities |>
+us_cities_equi <- us_cities |>
   mutate(equidist_diff = abs(
-      as.numeric(dist_to_mexico) - as.numeric(dist_to_canada)))|>
+      as.numeric(dist_to_mexico) - as.numeric(dist_to_canada))) |>
   filter(equidist_diff < 100) |>
   slice_max(population, n = 5)
 
-ggplot() +
+us_cities <- us_cities |>
+  mutate(equidist_diff = abs(
+    as.numeric(dist_to_mexico) - as.numeric(dist_to_canada)))
+
+ggplot(data = us_cities) +
   geom_sf(data = us_states, color = "grey60") +
-  geom_sf(data = us_cities, aes(color = equidist_diff), size = 0.4) +
+  geom_sf(aes(color = equidist_diff), size = 0.4) +
   gghighlight::gghighlight(equidist_diff < 100) +
   scale_color_viridis_c(name = "Distance from Canada & Mexico") +
   ggrepel::geom_label_repel(
-    data = equi_cities,
+    data = us_cities,
     aes(geometry = geometry, label = city),
     stat = "sf_coordinates", size = 3
   ) +
@@ -465,11 +469,6 @@ Federal regulations give U.S. Customs and Border Protection (CBP) authority to o
 
 The American Civil Liberties Union has documented and challenged this policy. Their analysis is [here](https://www.aclu.org/other/constitution-100-mile-border-zone).
 
-```{r}
-#| echo: false
-#| fig-align: center
-knitr::include_graphics('img/03-aclu.jpg')
-```
 
 100 miles ≈ **160 kilometers**. Your distance calculations are already in kilometers.
 
