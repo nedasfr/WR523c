@@ -8,8 +8,6 @@ format:
   html:
     code-fold: true
     toc: true
-    include-before-body: ../slides/header.html
-    include-after-body: ../slides/footer-annotations.html
 ---
 
 ```{r}
@@ -442,13 +440,13 @@ us_cities <- us_cities |>
   mutate(equidist_diff = abs(
     as.numeric(dist_to_mexico) - as.numeric(dist_to_canada)))
 
-ggplot(data = us_cities) +
+ggplot() +
   geom_sf(data = us_states, color = "grey60") +
-  geom_sf(aes(color = equidist_diff), size = 0.4) +
+  geom_sf(data= us_cities, aes(color = equidist_diff), size = 0.4) +
   gghighlight::gghighlight(equidist_diff < 100) +
   scale_color_viridis_c(name = "Distance from Canada & Mexico") +
   ggrepel::geom_label_repel(
-    data = us_cities,
+    data = us_cities_equi,
     aes(geometry = geometry, label = city),
     stat = "sf_coordinates", size = 3
   ) +
