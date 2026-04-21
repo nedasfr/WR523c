@@ -467,8 +467,8 @@ Use `mapview` to generate a slippy map of the Palo, Iowa `bbox.` Find the locati
       
   - Use `terra::extract` to extract the binary flood values at that location from the six layer flood map stack
   
-> How many of the maps captured the flooding at that location? 
-One of them. the KMeans map
+> How many of the maps captured the flooding at that location?/
+None of them, I tried several different points.
 
 ```{r}
 mapview(aoi_projected)
@@ -480,6 +480,7 @@ flooded_zone <- st_point(c(-91.78967, 42.06269))|>
 mapview(flooded_zone)
 
 terra::extract(stack_binary, vect(flooded_zone))
+
 ```
 
 ****
