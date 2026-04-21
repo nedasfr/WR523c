@@ -83,11 +83,9 @@ Within R, we can open a connection to this endpoint with the `stac` function:
 
 stac_query<- stac_query|>
   stac_search(collections = "landsat-c2-l2", datetime = "2016-09-24/2016-09-29",
-              bbox = st_bbox(aoi))|>
+              bbox = st_bbox(aoi),
+              limit = 1)|>
   get_request()|>
-  items_sign(sign_planetary_computer())|> items_filter(filter_fn = function(x) {
-    x$properties$platform == "landsat-8"
-  }) |>
   items_sign(sign_planetary_computer())
 
 ```
