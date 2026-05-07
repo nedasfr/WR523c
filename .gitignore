@@ -5,3 +5,7 @@
 
 /.quarto/
 **/*.quarto_ipynb
+.positai
+.httr-oauth
+.DS_Store
+.quarto
