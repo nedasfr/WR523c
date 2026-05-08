@@ -10,5 +10,5 @@ website:
       - href: index.qmd
         text: Home
       - href: labs/lab-01.qmd
-        text: Lab 1
+        text: Labs
   
