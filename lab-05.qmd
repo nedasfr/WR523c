@@ -6,7 +6,6 @@ author:
     email: neda.safari@colostate.edu
 format:
   html:
-    code-fold: true
     toc: true
 ---
 
@@ -886,7 +885,11 @@ xgb_grid <- xgb_param|>
 
 
 ctrl <- control_grid(save_pred = TRUE, verbose = TRUE)
+```
 
+
+```{r}
+#| message: false
 set.seed(100)
 xgb_tune_res <- tune_grid(
   xgb_wf_tune,
@@ -896,7 +899,10 @@ xgb_tune_res <- tune_grid(
   control = ctrl,
   metrics = metric_set(rmse, rsq, mae)
 )
+```
 
+
+```{r}
 autoplot(xgb_tune_res)
 
 show_best(xgb_tune_res, metric = "rsq")
