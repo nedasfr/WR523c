@@ -7,3 +7,5 @@ https://nedasfr.github.io/WR523c/lab-02.html
 https://nedasfr.github.io/WR523c/lab-03.html
 
 https://nedasfr.github.io/WR523c/lab-04.html
+
+https://nedasfr.github.io/WR523c/lab-05.html
