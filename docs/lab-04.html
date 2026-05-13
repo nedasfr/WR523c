@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,6 +10,9 @@
 
 <title>Lab 4: Rasters &amp; Remote Sensing – ESS 523c: Environmental Data Science</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,15 +71,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1d4f84655f446305ac42a8f1abcf7405.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ece42c8223ec2bf36298a08f122c9a68.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -152,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -190,8 +192,6 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">ESS 523c: Environmental Data Science</span>
     </a>
@@ -208,7 +208,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./labs/lab-01.qmd"> 
-<span class="menu-text">Lab 1</span></a>
+<span class="menu-text">Labs</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -297,28 +297,10 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstac) <span class="co"># STAC API</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'rstac' was built under R version 4.5.3</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra) <span class="co"># Raster Data handling</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'terra' was built under R version 4.5.3</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf) <span class="co"># Vector data processing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'sf' was built under R version 4.5.3</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview) <span class="co"># Rapid Interactive visualization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstac) <span class="co"># STAC API</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra) <span class="co"># Raster Data handling</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf) <span class="co"># Vector data processing</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview) <span class="co"># Rapid Interactive visualization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Almost all remote sensing / image analysis begins with the same basic steps:</p>
@@ -336,9 +318,9 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>aoi <span class="ot">&lt;-</span> AOI<span class="sc">::</span><span class="fu">aoi_get</span>(<span class="at">state =</span> <span class="st">"Iowa"</span>, <span class="at">county =</span> <span class="st">"Linn"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(aoi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>aoi <span class="ot">&lt;-</span> AOI<span class="sc">::</span><span class="fu">aoi_get</span>(<span class="at">state =</span> <span class="st">"Iowa"</span>, <span class="at">county =</span> <span class="st">"Linn"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(aoi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Coordinate Reference System:
@@ -393,8 +375,8 @@ GEOGCRS["WGS 84",
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open a connection to the MPC STAC API</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>(stac_query <span class="ot">&lt;-</span> <span class="fu">stac</span>(<span class="st">"https://planetarycomputer.microsoft.com/api/stac/v1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open a connection to the MPC STAC API</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(stac_query <span class="ot">&lt;-</span> <span class="fu">stac</span>(<span class="st">"https://planetarycomputer.microsoft.com/api/stac/v1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>###rstac_query
@@ -404,12 +386,12 @@ GEOGCRS["WGS 84",
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stac_query<span class="ot">&lt;-</span> stac_query<span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stac_search</span>(<span class="at">collections =</span> <span class="st">"landsat-c2-l2"</span>, <span class="at">datetime =</span> <span class="st">"2016-09-24/2016-09-29"</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">bbox =</span> <span class="fu">st_bbox</span>(aoi),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">limit =</span> <span class="dv">1</span>)<span class="sc">|&gt;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_request</span>()<span class="sc">|&gt;</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">items_sign</span>(<span class="fu">sign_planetary_computer</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stac_query<span class="ot">&lt;-</span> stac_query<span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stac_search</span>(<span class="at">collections =</span> <span class="st">"landsat-c2-l2"</span>, <span class="at">datetime =</span> <span class="st">"2016-09-24/2016-09-29"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">bbox =</span> <span class="fu">st_bbox</span>(aoi),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">limit =</span> <span class="dv">1</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_request</span>()<span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">items_sign</span>(<span class="fu">sign_planetary_computer</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>That connection will provide an open entry to ALL data hosted by MPC. The <code>stac_search</code> function allows us to reduce the catalog to assets that match certain criteria (just like <code>dplyr::filter</code> reduces a <code>data.frame</code>). The <code>get_request()</code> function sends your search to the STAC API returning the metadata about the objects that match a criteria. The service implementation at MPC sets a return limit of 250 items (but it could be overridden with the limit parameter).</p>
@@ -429,8 +411,8 @@ GEOGCRS["WGS 84",
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bands 1-6</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'coastal'</span>, <span class="st">'blue'</span>, <span class="st">'green'</span>, <span class="st">'red'</span>, <span class="st">'nir08'</span>, <span class="st">'swir16'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bands 1-6</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'coastal'</span>, <span class="st">'blue'</span>, <span class="st">'green'</span>, <span class="st">'red'</span>, <span class="st">'nir08'</span>, <span class="st">'swir16'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Now we can use the <code>assets_download()</code> function to download the data. The <code>output_dir</code> argument specifies where to save the files, and the <code>overwrite</code> argument specifies whether to overwrite existing files with the same name.</p>
@@ -443,7 +425,7 @@ GEOGCRS["WGS 84",
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assets_download</span>(<span class="at">items =</span> stac_query, <span class="at">asset_names =</span> bands, <span class="at">output_dir =</span> <span class="st">"data/"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assets_download</span>(<span class="at">items =</span> stac_query, <span class="at">asset_names =</span> bands, <span class="at">output_dir =</span> <span class="st">"data/"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>###Items
@@ -457,26 +439,26 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>landsat_files<span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.TIF$"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>landsat<span class="ot">&lt;-</span> <span class="fu">rast</span>(landsat_files)<span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="at">nm =</span> bands)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>landsat_files<span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.TIF$"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>landsat<span class="ot">&lt;-</span> <span class="fu">rast</span>(landsat_files)<span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="at">nm =</span> bands)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7801 7681    6</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "PROJCRS[\"WGS 84 / UTM zone 15N\",\n    BASEGEOGCRS[\"WGS 84\",\n        DATUM[\"World Geodetic System 1984\",\n            ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n                LENGTHUNIT[\"metre\",1]]],\n        PRIMEM[\"Greenwich\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        ID[\"EPSG\",4326]],\n    CONVERSION[\"UTM zone 15N\",\n        METHOD[\"Transverse Mercator\",\n            ID[\"EPSG\",9807]],\n        PARAMETER[\"Latitude of natural origin\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8801]],\n        PARAMETER[\"Longitude of natural origin\",-93,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8802]],\n        PARAMETER[\"Scale factor at natural origin\",0.9996,\n            SCALEUNIT[\"unity\",1],\n            ID[\"EPSG\",8805]],\n        PARAMETER[\"False easting\",500000,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8806]],\n        PARAMETER[\"False northing\",0,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8807]]],\n    CS[Cartesian,2],\n        AXIS[\"(E)\",east,\n            ORDER[1],\n            LENGTHUNIT[\"metre\",1]],\n        AXIS[\"(N)\",north,\n            ORDER[2],\n            LENGTHUNIT[\"metre\",1]],\n    USAGE[\n        SCOPE[\"Navigation and medium accuracy spatial referencing.\"],\n        AREA[\"Between 96°W and 90°W, northern hemisphere between equator and 84°N, onshore and offshore. Canada - Manitoba; Nunavut; Ontario. Ecuador -Galapagos. Guatemala. Mexico. United States (USA).\"],\n        BBOX[0,-96,84,-90]],\n    ID[\"EPSG\",32615]]"</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(landsat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 30 30</code></pre>
@@ -496,22 +478,22 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(landsat)<span class="sc">==</span> <span class="fu">st_crs</span>(aoi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(landsat)<span class="sc">==</span> <span class="fu">st_crs</span>(aoi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>aoi_projected<span class="ot">&lt;-</span> <span class="fu">st_transform</span>(aoi, <span class="fu">crs</span>(landsat))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(landsat)<span class="sc">==</span> <span class="fu">st_crs</span>(aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>aoi_projected<span class="ot">&lt;-</span> <span class="fu">st_transform</span>(aoi, <span class="fu">crs</span>(landsat))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(landsat)<span class="sc">==</span> <span class="fu">st_crs</span>(aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>crop_landsat<span class="ot">&lt;-</span> <span class="fu">crop</span>(landsat, aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>crop_landsat<span class="ot">&lt;-</span> <span class="fu">crop</span>(landsat, aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Awesome! We have now (1) identified, (2) downloaded, and (3) saved our images.</p>
@@ -549,8 +531,8 @@ Note
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Natural Color Image</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>, <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Natural Color Image</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>, <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -561,8 +543,8 @@ Note
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Traditional Color Infrared (CIR) Image</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span> , <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Traditional Color Infrared (CIR) Image</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span> , <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -573,8 +555,8 @@ Note
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#False Color good for picking out land from water</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span> , <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#False Color good for picking out land from water</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span> , <span class="at">stretch=</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -585,8 +567,8 @@ Note
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#False color for agriculture</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">2</span> , <span class="at">stretch=</span> <span class="st">"hist"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#False color for agriculture</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(crop_landsat, <span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">2</span> , <span class="at">stretch=</span> <span class="st">"hist"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -667,22 +649,22 @@ Note
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>NDVI<span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"nir08"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"red"</span>]]) <span class="sc">/</span> (crop_landsat[[<span class="st">"nir08"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"red"</span>]])</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>NDWI<span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"nir08"</span>]])<span class="sc">/</span> (crop_landsat[[<span class="st">"green"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"nir08"</span>]])</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>MNDWI <span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"swir16"</span>]]) <span class="sc">/</span>(crop_landsat[[<span class="st">"green"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>WRI <span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">+</span> crop_landsat[[<span class="st">"red"</span>]]) <span class="sc">/</span>(crop_landsat[[<span class="st">"nir08"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>SWI<span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(crop_landsat[[<span class="st">"blue"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>stacked_raster<span class="ot">&lt;-</span> <span class="fu">c</span>( SWI, WRI, MNDWI, NDWI, NDVI)<span class="sc">|&gt;</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>( <span class="st">"SWI"</span>, <span class="st">"WRI"</span>, <span class="st">"MNDWI"</span>, <span class="st">"NDWI"</span>, <span class="st">"NDVI"</span>))</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>colorpalet<span class="ot">&lt;-</span>(<span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"white"</span>, <span class="st">"red"</span>))(<span class="dv">256</span>))</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stacked_raster, <span class="at">col=</span> colorpalet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>NDVI<span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"nir08"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"red"</span>]]) <span class="sc">/</span> (crop_landsat[[<span class="st">"nir08"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"red"</span>]])</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>NDWI<span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"nir08"</span>]])<span class="sc">/</span> (crop_landsat[[<span class="st">"green"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"nir08"</span>]])</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>MNDWI <span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"swir16"</span>]]) <span class="sc">/</span>(crop_landsat[[<span class="st">"green"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>WRI <span class="ot">&lt;-</span> (crop_landsat[[<span class="st">"green"</span>]] <span class="sc">+</span> crop_landsat[[<span class="st">"red"</span>]]) <span class="sc">/</span>(crop_landsat[[<span class="st">"nir08"</span>]]<span class="sc">+</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>SWI<span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(crop_landsat[[<span class="st">"blue"</span>]] <span class="sc">-</span> crop_landsat[[<span class="st">"swir16"</span>]])</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>stacked_raster<span class="ot">&lt;-</span> <span class="fu">c</span>( SWI, WRI, MNDWI, NDWI, NDVI)<span class="sc">|&gt;</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>( <span class="st">"SWI"</span>, <span class="st">"WRI"</span>, <span class="st">"MNDWI"</span>, <span class="st">"NDWI"</span>, <span class="st">"NDVI"</span>))</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>colorpalet<span class="ot">&lt;-</span>(<span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"white"</span>, <span class="st">"red"</span>))(<span class="dv">256</span>))</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stacked_raster, <span class="at">col=</span> colorpalet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -713,18 +695,18 @@ The similarity is that all of the images detect the water very well. The differe
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>flood_ndvi <span class="ot">&lt;-</span> <span class="fu">app</span>(NDVI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>flood_ndwi<span class="ot">&lt;-</span> <span class="fu">app</span>(NDWI,<span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>flood_mndwi <span class="ot">&lt;-</span> <span class="fu">app</span>(MNDWI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>flood_wri <span class="ot">&lt;-</span> <span class="fu">app</span>(WRI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>flood_swi<span class="ot">&lt;-</span> <span class="fu">app</span>(SWI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">5</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">c</span>(flood_ndvi, flood_ndwi, flood_mndwi, flood_wri, flood_swi)<span class="sc">|&gt;</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"NDVI"</span>,<span class="st">"NDWI"</span>,<span class="st">"MNDWI"</span>,<span class="st">"WRI"</span>,<span class="st">"SWI"</span>))</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">app</span>(stack_binary, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, x))</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_binary, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"blue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>flood_ndvi <span class="ot">&lt;-</span> <span class="fu">app</span>(NDVI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>flood_ndwi<span class="ot">&lt;-</span> <span class="fu">app</span>(NDWI,<span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>flood_mndwi <span class="ot">&lt;-</span> <span class="fu">app</span>(MNDWI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>flood_wri <span class="ot">&lt;-</span> <span class="fu">app</span>(WRI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>flood_swi<span class="ot">&lt;-</span> <span class="fu">app</span>(SWI, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">5</span>,  <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">c</span>(flood_ndvi, flood_ndwi, flood_mndwi, flood_wri, flood_swi)<span class="sc">|&gt;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"NDVI"</span>,<span class="st">"NDWI"</span>,<span class="st">"MNDWI"</span>,<span class="st">"WRI"</span>,<span class="st">"SWI"</span>))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">app</span>(stack_binary, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, x))</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_binary, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"blue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -751,7 +733,7 @@ The similarity is that all of the images detect the water very well. The differe
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -767,8 +749,8 @@ The similarity is that all of the images detect the water very well. The differe
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>landsat_values <span class="ot">&lt;-</span> <span class="fu">values</span>(crop_landsat)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(landsat_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>landsat_values <span class="ot">&lt;-</span> <span class="fu">values</span>(crop_landsat)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(landsat_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2132361       6</code></pre>
@@ -780,7 +762,7 @@ The similarity is that all of the images detect the water very well. The differe
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>values_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(landsat_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>values_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(landsat_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -802,24 +784,24 @@ The similarity is that all of the images detect the water very well. The differe
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span><span class="fu">apply</span>(<span class="fu">is.na</span>(values_clean), <span class="dv">1</span>, any))</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>v  <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(values_clean)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">scale</span>(v)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(vs, <span class="at">centers =</span> <span class="dv">12</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span><span class="fu">apply</span>(<span class="fu">is.na</span>(values_clean), <span class="dv">1</span>, any))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>v  <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(values_clean)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">scale</span>(v)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(vs, <span class="at">centers =</span> <span class="dv">12</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Quick-TRANSfer stage steps exceeded maximum (= 106614950)</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>kmeans_raster <span class="ot">&lt;-</span> crop_landsat[[<span class="dv">1</span>]]</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(kmeans_raster) <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>kmeans_raster[idx] <span class="ot">&lt;-</span> E<span class="sc">$</span>cluster</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kmeans_raster, <span class="at">col =</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">"Spectral"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>kmeans_raster <span class="ot">&lt;-</span> crop_landsat[[<span class="dv">1</span>]]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(kmeans_raster) <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>kmeans_raster[idx] <span class="ot">&lt;-</span> E<span class="sc">$</span>cluster</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kmeans_raster, <span class="at">col =</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">"Spectral"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in RColorBrewer::brewer.pal(12, "Spectral"): n too large, allowed maximum for palette Spectral is 11
@@ -848,18 +830,18 @@ Returning the palette you asked for with that many colors</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>flood_ref <span class="ot">&lt;-</span> <span class="fu">values</span>(flood_ndwi)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(flood_ref, <span class="fu">values</span>(kmeans_raster))</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>flood_cluster <span class="ot">&lt;-</span> <span class="fu">which.max</span>(tbl[<span class="dv">2</span>,])</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>flood_kmeans <span class="ot">&lt;-</span> <span class="fu">app</span>(kmeans_raster, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> flood_cluster, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">c</span>(stack_binary, flood_kmeans) <span class="sc">|&gt;</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"NDVI"</span>,<span class="st">"NDWI"</span>,<span class="st">"MNDWI"</span>,<span class="st">"WRI"</span>,<span class="st">"SWI"</span>,<span class="st">"KMeans"</span>))</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_binary, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"blue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>flood_ref <span class="ot">&lt;-</span> <span class="fu">values</span>(flood_ndwi)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(flood_ref, <span class="fu">values</span>(kmeans_raster))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>flood_cluster <span class="ot">&lt;-</span> <span class="fu">which.max</span>(tbl[<span class="dv">2</span>,])</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>flood_kmeans <span class="ot">&lt;-</span> <span class="fu">app</span>(kmeans_raster, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> flood_cluster, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>stack_binary <span class="ot">&lt;-</span> <span class="fu">c</span>(stack_binary, flood_kmeans) <span class="sc">|&gt;</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"NDVI"</span>,<span class="st">"NDWI"</span>,<span class="st">"MNDWI"</span>,<span class="st">"WRI"</span>,<span class="st">"SWI"</span>,<span class="st">"KMeans"</span>))</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_binary, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"blue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -883,12 +865,12 @@ Returning the palette you asked for with that many colors</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>sum_layer <span class="ot">&lt;-</span> <span class="fu">global</span>(stack_binary, <span class="at">fun =</span> <span class="st">"sum"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>cell_resolution <span class="ot">&lt;-</span> <span class="fu">res</span>(stack_binary)</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>sum_layer<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> sum_layer<span class="sc">$</span>sum <span class="sc">*</span> (cell_resolution<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="dv">1000000</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>sum_layer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sum_layer <span class="ot">&lt;-</span> <span class="fu">global</span>(stack_binary, <span class="at">fun =</span> <span class="st">"sum"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>cell_resolution <span class="ot">&lt;-</span> <span class="fu">res</span>(stack_binary)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>sum_layer<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> sum_layer<span class="sc">$</span>sum <span class="sc">*</span> (cell_resolution<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="dv">1000000</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>sum_layer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>          sum area_km2
@@ -909,8 +891,8 @@ KMeans 256385 230.7465</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>uncertain <span class="ot">&lt;-</span> <span class="fu">app</span>(stack_binary, <span class="at">fun=</span> sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(uncertain, <span class="at">col =</span> blues9)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>uncertain <span class="ot">&lt;-</span> <span class="fu">app</span>(stack_binary, <span class="at">fun=</span> sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(uncertain, <span class="at">col =</span> blues9)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -929,10 +911,10 @@ KMeans 256385 230.7465</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>new_raster <span class="ot">&lt;-</span> uncertain</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>new_raster <span class="ot">&lt;-</span> <span class="fu">app</span>(new_raster, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA</span>, x))</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(new_raster, <span class="at">maxpixels=</span> <span class="dv">2132361</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>new_raster <span class="ot">&lt;-</span> uncertain</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>new_raster <span class="ot">&lt;-</span> <span class="fu">app</span>(new_raster, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA</span>, x))</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(new_raster, <span class="at">maxpixels=</span> <span class="dv">2132361</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="leaflet html-widget html-fill-item" id="htmlwidget-624732b14fa307e0d14b" style="width:100%;height:464px;"></div>
@@ -954,7 +936,7 @@ KMeans 256385 230.7465</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/palo-flood.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/palo-flood.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -978,7 +960,7 @@ KMeans 256385 230.7465</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(aoi_projected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="leaflet html-widget html-fill-item" id="htmlwidget-fd3b7c597ee00e7563d0" style="width:100%;height:464px;"></div>
@@ -986,11 +968,11 @@ KMeans 256385 230.7465</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>flooded_zone <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">91.78967</span>, <span class="fl">42.06269</span>))<span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="fu">crs</span>(stack_binary))</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(flooded_zone)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>flooded_zone <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">91.78967</span>, <span class="fl">42.06269</span>))<span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="fu">crs</span>(stack_binary))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(flooded_zone)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="leaflet html-widget html-fill-item" id="htmlwidget-937cf18a8803029b9ae2" style="width:100%;height:464px;"></div>
@@ -998,7 +980,7 @@ KMeans 256385 230.7465</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(stack_binary, <span class="fu">vect</span>(flooded_zone))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">extract</span>(stack_binary, <span class="fu">vect</span>(flooded_zone))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID NDVI NDWI MNDWI WRI SWI KMeans
